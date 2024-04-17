@@ -50,6 +50,7 @@ app.get('/:blogId', zValidator("param", getBlogByIdSchema, (result: any, c) => {
     const blogId = c.req.valid("param")
 
     const blog = await findPostById(c, blogId)
+    console.log("Here")
 
     return c.json({
       message: "post found",
