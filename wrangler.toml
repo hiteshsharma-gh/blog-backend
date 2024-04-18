@@ -1,8 +1,8 @@
 name = "blog-backend"
 compatibility_date = "2023-12-01"
 
-# [vars]
-# MY_VAR = "my-variable"
+[vars]
+DATABASE_URL = "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiYzUwMGJiMTEtYmUzOC00ZmE2LWI1NGUtZDYxN2EwYmU1NTlkIiwidGVuYW50X2lkIjoiMWI0ZjhkYTg4ODIwOTAwMjRhZDM0ZTIyZTg2MDhkM2E4OWFlYzA2YmNhYTI4MGZmMzM1ZjUwMjg0YTM1OTQ2NCIsImludGVybmFsX3NlY3JldCI6Ijc1MDVhZmEwLWFjNDAtNGU3MS05YzQ2LTVmMzExM2Y2MGE4NiJ9.9fm7wN5a97N3P7za7wMLGqVZLCLClsKMWhmXyXWwuC4"
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
@@ -19,4 +19,3 @@ compatibility_date = "2023-12-01"
 
 # [ai]
 # binding = "AI"
-
