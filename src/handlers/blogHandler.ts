@@ -1,6 +1,11 @@
 import { Hono } from "hono"
 
-const app = new Hono()
+const app = new Hono<{
+  Bindings: {
+    DATABASE_URL: string,
+    JWT_SECRET: string
+  }
+}>()
 
 app.get('/api/v1/blog/:blogId', (c) => {
   const pageId = c.req.param('blogId')
