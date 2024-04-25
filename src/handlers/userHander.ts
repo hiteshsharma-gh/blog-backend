@@ -20,24 +20,32 @@ app.post('/signup', zValidator("json", singupSchema, (result: any, c) => {
 
   return result.data
 }), async (c) => {
-  const { username, email, password } = c.req.valid("json")
+  try {
+    const { username, email, password } = c.req.valid("json")
 
-  const userExists = await findUserByEmail(c, email)
-  if (userExists) {
+    const userExists = await findUserByEmail(c, email)
+    if (userExists) {
+      c.status(403)
+      return c.json({
+        message: "user already exists"
+      })
+    }
+
+    const User = await addUser(c, username, email, password)
+
+    const token = await sign({ id: User.id }, c.env?.JWT_SECRET);
+
     return c.json({
-      message: "user already exists"
+      message: "user created successfully",
+      User,
+      token
+    })
+  } catch (err) {
+    c.status(403)
+    return c.json({
+      error: err
     })
   }
-
-  const User = await addUser(c, username, email, password)
-
-  const token = await sign(User.id, c.env?.JWT_SECRET);
-
-  return c.json({
-    message: "user created successfully",
-    User,
-    token
-  })
 })
 
 app.post('/signin', zValidator("json", signinSchema, (result: any, c) => {
@@ -49,31 +57,40 @@ app.post('/signin', zValidator("json", signinSchema, (result: any, c) => {
 
   return result.data
 }), async (c) => {
-  const { email, password } = c.req.valid("json")
+  try {
+    const { email, password } = c.req.valid("json")
 
-  const User = await findUserByEmail(c, email)
+    const User = await findUserByEmail(c, email)
 
-  if (!User) {
+    if (!User) {
+      c.status(403)
+      return c.json({
+        message: "User doesn't exist"
+      })
+    }
+
+    const hash = await hashGenerator(password)
+
+    if (hash != User.password) {
+      c.status(403)
+      return c.json({
+        message: "invalid password"
+      })
+    }
+
+    const token = await sign({ id: User.id }, c.env?.JWT_SECRET)
+
     return c.json({
-      message: "User doesn't exist"
+      message: "login successfull",
+      User,
+      token
+    })
+  } catch (err) {
+    c.status(403)
+    return c.json({
+      error: err
     })
   }
-
-  const hash = await hashGenerator(password)
-
-  if (hash != User.password) {
-    return c.json({
-      message: "invalid password"
-    })
-  }
-
-  const token = await sign(User.id, c.env?.JWT_SECRET)
-
-  return c.json({
-    message: "login successfull",
-    User,
-    token
-  })
 })
 
 export default app
