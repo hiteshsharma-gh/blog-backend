@@ -37,7 +37,7 @@ app.post('/signup', zValidator("json", singupSchema, (result: any, c) => {
 
     return c.json({
       message: "user created successfully",
-      User,
+      id: User.id,
       token
     })
   } catch (err) {
@@ -82,7 +82,7 @@ app.post('/signin', zValidator("json", signinSchema, (result: any, c) => {
 
     return c.json({
       message: "login successfull",
-      User,
+      id: User.id,
       token
     })
   } catch (err) {
