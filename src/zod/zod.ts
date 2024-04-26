@@ -15,3 +15,11 @@ export const postSchema = z.object({
   title: z.string(),
   content: z.string()
 })
+
+export const updatePostSchema = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+  content: z.string().optional()
+})
+
+export const getBlogByIdSchema = z.string()
