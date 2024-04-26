@@ -37,11 +37,6 @@ export async function addUser(c: Context, username: string, email: string, passw
 
   const User = await prisma.user.create({
     data: userData,
-    select: {
-      id: true,
-      username: true,
-      email: true
-    }
   })
 
   return User
